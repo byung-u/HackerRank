@@ -1,39 +1,30 @@
 #!/usr/bin/env python3
 
-import sys
+
+all_cases = [[[8, 1, 6], [3, 5, 7], [4, 9, 2]],
+             [[6, 1, 8], [7, 5, 3], [2, 9, 4]],
+             [[4, 9, 2], [3, 5, 7], [8, 1, 6]],
+             [[2, 9, 4], [7, 5, 3], [6, 1, 8]],
+             [[8, 3, 4], [1, 5, 9], [6, 7, 2]],
+             [[4, 3, 8], [9, 5, 1], [2, 7, 6]],
+             [[6, 7, 2], [1, 5, 9], [8, 3, 4]],
+             [[2, 7, 6], [9, 5, 1], [4, 3, 8]], ]
 
 s = []
 for s_i in range(3):
-   s_t = [int(s_temp) for s_temp in input().strip().split(' ')]
-   s.append(s_t)
+    s_t = [int(s_temp) for s_temp in input().strip().split(' ')]
+    s.append(s_t)
 
-res = 0
-l = [num for n in s for num in n]
-l1, l2 = [], []
-for i in range(0, len(l), len(s)):
-    l1.append(l[i: i + len(s)])
+diffs = [sum([abs(cases[i][j] - s[i][j]) for i in range(0, 3) for j in range(0, 3)]) for cases in all_cases]
+print(min(diffs))
 
-for i in range(0, len(s)):
-    temp = []
-    for j in range(0, len(s)):
-        temp.append(l[i + (j * len(s))])
-    l2.append(temp)
-
-print(l1)
-print(l2)
-
-
-
-
-# res = 0
-# l1 = []
-# l2 = sorted([num for n in s for num in n])
-# for i in range(1, 10):
-#     if i in l2:
-#         l2.remove(i)
-#     else:
-#         l1.append(i)
-# len_l = len(l1)
-# for i in range(len_l):
-#     res += abs(l1[i] - l2[i])
-# print(res)
+# Origin code
+# for cases in all_cases:
+#     diff = 0
+#     for i in range(0, 3):
+#         for j in range(0, 3):
+#             diff += abs(cases[i][j] - s[i][j])
+#     diffs.append(diff)
+#
+# tranpose sample
+# seeds.append([list(t) for t in list(zip(*seed))])
