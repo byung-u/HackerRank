@@ -2,20 +2,17 @@
 # Query
 ###############
 
-
-SELECT W.id, W.code, W.coins_needed, W.power
-FROM Wands AS W 
-    JOIN Wands_Property AS WP ON (W.code = WP.code)
+SELECT W.id, WP.age, W.coins_needed, W.power
+FROM Wands AS W
+    INNER JOIN Wands_Property AS WP ON (W.code = WP.code)
 WHERE WP.is_evil = 0 AND W.coins_needed = (
-    SELECT MIN(coins_needed) 
-    FROM Wands AS W1
-        INNER JOIN Wands_Property AS WP1 ON (W1.code = WP1.code)
-    WHERE W1.power = W.power AND WP1.age = WP.age
+    SELECT MIN(coins_needed)
+    FROM Wands AS W2
+    INNER JOIN Wands_Property AS WP2 ON (W2.code = WP2.code)
+    WHERE WP.age = WP2.age AND W.power = W2.power
     )
 ORDER BY W.power DESC, WP.age DESC
 ;
-
-
 
 
 #####
