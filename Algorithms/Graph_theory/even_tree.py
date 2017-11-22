@@ -1,30 +1,41 @@
 #!/usr/bin/env python3
-from operator import itemgetter
-# reference
-# https://github.com/ynyeh0221/HackerRank/blob/master/Kruskal%20(MST):%20Really%20Special%20Subtree.py
+# Understanding problem with this comment
+# https://www.hackerrank.com/challenges/even-tree/forum/comments/185759
+from collections import defaultdict
 
 
-def Kruskal(node, edge):
-    cost = 0
-    while edge:
-        if ( (edge[0][0] not in node[edge[0][1] - 1]) or
-             (edge[0][1] not in node[edge[0][0] - 1])):
+class Graph(object):
+    def __init__(self):
+        self.nodes = set()
+        self.edges = defaultdict(list)
 
-            node[edge[0][0] - 1] = node[edge[0][0] - 1] | node[edge[0][1] - 1]
-            node[edge[0][1] - 1] = node[edge[0][0] - 1] | node[edge[0][1] - 1]
+    def add_node(self, value):
+        self.nodes.add(value)
 
-            for i in node[edge[0][0] - 1]:
-                node[i - 1] = node[edge[0][0] - 1]
-            cost += edge[0][2]
+    def add_edge(self, from_node, to_node):
+        self.edges[to_node].append(from_node)
 
-        edge.pop(0)
-    print(cost)
+    def dfs(self, node, visited):
+        if node not in visited:
+            visited.append(node)
+            for n in self.edges[node]:
+                self.dfs(n, visited)
+        return visited
 
 
-t = input().split()
-N, M = int(t[0]), int(t[1])
-edge = [list(map(int, input().split())) for _ in range(M)]
-edge = sorted(edge, key=itemgetter(2))
-node = [set([i]) for i in range(1, N + 1)]
+N, M = list(map(int, input().split()))
+node = [list(map(int, input().split())) for _ in range(M)]
 
-Kruskal(node, edge)
+g = Graph()
+for n in node:
+    g.add_node(n[0])
+    g.add_edge(n[0], n[1])
+
+cnt = 0
+visited = []
+for n in g.nodes:
+    v = g.dfs(n, [])
+    # print(v)
+    if len(v) % 2 == 0:
+        cnt += 1
+print(cnt)
