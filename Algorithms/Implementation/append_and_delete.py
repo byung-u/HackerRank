@@ -1,5 +1,22 @@
 #!/usr/bin/env python3
 
+def simple_solution(s, len_s, t, len_t, k):
+    common_len = 0
+    for i in range(min(len_s, len_t)):
+        if s[i] == t[i]:
+            common_len += 1
+        else:
+            break
+
+    if (len_s + len_t - 2 * common_len) > k:  # case 1
+        print('No')
+    elif (len_s + len_t - 2 * common_len) % 2 == k % 2:  # case 2
+        print('Yes')
+    elif (len_s + len_t - k) < 0:  # case 3
+        print('Yes')
+    else:  # case 4
+        print('No')
+
 
 def check_append_delete_possible(s, len_s, t, len_t, k):
     if s == t:
@@ -67,19 +84,7 @@ t = input().strip()
 k = int(input().strip())
 
 check_append_delete_possible(s, len(s), t, len(t), k)
+# simple_solution(s, len(s), t, len(t), k)
 
 
 
-
-'''
-aaa
-aaa\0 (delete)
-a
-a     (append)
-4 + 1 = 5
-
-abcdef
-fedcba
-15
-7 + 6 , 7 + 6 + 2 , 7 + 6 + 2 + 2 ... 
-'''
